@@ -1,27 +1,30 @@
+import { Icon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
+  Box,
   Button,
   Container,
   Divider,
+  Flex,
   Heading,
   Link,
+  ListItem,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
-  Table,
   Tabs,
-  Tbody,
-  Td,
   Text,
   Textarea,
-  Th,
-  Thead,
-  Tr,
+  UnorderedList,
   useColorMode,
 } from '@chakra-ui/react'
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { GoMarkGithub } from 'react-icons/go'
 import { z } from 'zod'
-import skillNames from './skillNames'
+import ResultTabs from './ResultTabs'
+import SkillTable from './SkillTable'
+import { languages } from './i18n'
 
 const CharmsScheme = z.array(
   z.object({
@@ -33,6 +36,7 @@ const CharmsScheme = z.array(
 
 const App = () => {
   const { colorMode, toggleColorMode } = useColorMode()
+  const { t, i18n } = useTranslation()
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [charmsValue, setCharmsValue] = useState<
     {
@@ -61,138 +65,117 @@ const App = () => {
   }
 
   return (
-    <div id="app">
-      <Container maxW="container.lg" py={10}>
-        <Heading as="h1" mb={10} textAlign="center">
-          魔物獵人護石轉換器
-        </Heading>
+    <Container id="app" maxW="container.lg" py={10}>
+      <Heading as="h1" mb={10} textAlign="center">
+        {t('layout.title')}
+      </Heading>
 
-        <Text>
-          樣式：
-          <Button colorScheme="blue" variant="link" onClick={() => colorMode === 'dark' && toggleColorMode()}>
-            Light
+      <Flex display={{ base: 'block', lg: 'flex' }} justifyContent="space-between" alignItems="center">
+        <Box>
+          <Button
+            size="sm"
+            colorScheme="blue"
+            variant={colorMode === 'light' ? undefined : 'outline'}
+            mr={3}
+            mb={5}
+            onClick={() => colorMode === 'dark' && toggleColorMode()}
+          >
+            <SunIcon mr={2} /> Light
           </Button>
-          <Text as="span" mx="3">
-            |
-          </Text>
-          <Button colorScheme="blue" variant="link" onClick={() => colorMode === 'light' && toggleColorMode()}>
-            Dark
+          <Button
+            size="sm"
+            colorScheme="blue"
+            variant={colorMode === 'dark' ? undefined : 'outline'}
+            mr={3}
+            mb={5}
+            onClick={() => colorMode === 'light' && toggleColorMode()}
+          >
+            <MoonIcon mr={2} /> Dark
           </Button>
-          <br />
-          語言：正體中文（zh-TW）
-          <br />
-          版本：崛起破曉 Ver.15.0.0.0（2023-04-20）
-          <br />
-          網站：
-          <Link href="https://mhrise.wiki-db.com/sim/?hl=zh-hant" color="blue.300" isExternal>
-            Monster Hunter Rise:Sunbreak Armorset Search
+        </Box>
+        <Box>
+          {languages.map(language => (
+            <Button
+              key={language.code}
+              size="sm"
+              colorScheme="blue"
+              variant={i18n.language === language.code ? undefined : 'outline'}
+              mr={3}
+              mb={5}
+              onClick={() => {
+                i18n.changeLanguage(language.code)
+                localStorage.setItem('i18n-language', language.code)
+              }}
+            >
+              {language.name}
+            </Button>
+          ))}
+        </Box>
+        <Box mb={5}>Ver.15.0.0.0 (2023-04-20)</Box>
+      </Flex>
+
+      <Divider my={10} />
+
+      <Heading as="h2" size="lg" mb={5}>
+        {t('layout.input')}
+      </Heading>
+
+      <UnorderedList mb={5}>
+        <ListItem>
+          <Link href="https://www.nexusmods.com/monsterhunterrise/mods/17?" color="blue.400" isExternal>
+            Charm Editor and Item Cheat
           </Link>
-        </Text>
+        </ListItem>
+        <ListItem>
+          <Link
+            href="https://docs.google.com/spreadsheets/d/10JQRMu3l0EQs2eX-e3kiIIq5z8Su1iLU2mKJQYKF2uI/edit?usp=sharing"
+            color="blue.400"
+            isExternal
+          >
+            MHR:SB護石表(15.0.0)
+          </Link>
+        </ListItem>
+      </UnorderedList>
 
-        <Divider my={10} />
+      <Tabs>
+        <TabList>
+          <Tab>JSON</Tab>
+          <Tab>{t('layout.skills')}</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Textarea
+              ref={textareaRef}
+              h="3xs"
+              mb={5}
+              placeholder="JSON"
+              borderColor={isError ? 'red.300' : undefined}
+              onFocus={() => setIsError(false)}
+            />
+            <Button colorScheme="blue" onClick={() => handleConvert()}>
+              {t('layout.convert')}
+            </Button>
+          </TabPanel>
+          <TabPanel>
+            <SkillTable />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
 
-        <Heading as="h2" size="lg" mb={5}>
-          輸入
-        </Heading>
+      <Divider my={10} />
 
-        <Tabs>
-          <TabList>
-            <Tab>JSON</Tab>
-            <Tab>技能表</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Textarea
-                ref={textareaRef}
-                h="3xs"
-                mb={5}
-                placeholder="JSON"
-                borderColor={isError ? 'red.300' : undefined}
-                onFocus={() => setIsError(false)}
-              />
-              <Button colorScheme="blue" onClick={() => handleConvert()}>
-                轉換
-              </Button>
-            </TabPanel>
-            <TabPanel>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>ID</Th>
-                    <Th>技能</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {Object.keys(skillNames).map(v => (
-                    <Tr key={v}>
-                      <Td>{v}</Td>
-                      <Td>{skillNames[v]}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+      <ResultTabs charmsValue={charmsValue} />
 
-        <Divider my={10} />
+      <Divider my={10} />
 
-        <Heading as="h2" size="lg" mb={5}>
-          輸出
-        </Heading>
-        <Tabs>
-          <TabList>
-            <Tab>文字</Tab>
-            <Tab>表格</Tab>
-          </TabList>
-
-          <TabPanels>
-            <TabPanel>
-              <Textarea
-                h="3xs"
-                isReadOnly
-                value={charmsValue
-                  .map(
-                    charm =>
-                      `${charm.Skills.map((id, i) => `${skillNames[id] || ''},${charm.SkillLevels[i]}`).join(
-                        ',',
-                      )},${charm.Slots.join(',')}`,
-                  )
-                  .join('\n')}
-              />
-            </TabPanel>
-            <TabPanel>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>技能1</Th>
-                    <Th>技能2</Th>
-                    <Th>鑲嵌槽</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {charmsValue.map((charm, i) => (
-                    <Tr key={i}>
-                      <Td>
-                        {skillNames[charm.Skills[0]]
-                          ? `${skillNames[charm.Skills[0]]} Lv${charm.SkillLevels[0]}`
-                          : null}
-                      </Td>
-                      <Td>
-                        {skillNames[charm.Skills[1]]
-                          ? `${skillNames[charm.Skills[1]]} Lv${charm.SkillLevels[1]}`
-                          : null}
-                      </Td>
-                      <Td>{charm.Slots.join('-')}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Container>
-    </div>
+      <Text textAlign="center">
+        <Link href="https://github.com/Elantris/mhr-charms-converter" isExternal>
+          <Button variant="link" leftIcon={<Icon as={GoMarkGithub} />}>
+            Elantris
+          </Button>
+        </Link>
+      </Text>
+    </Container>
   )
 }
 
