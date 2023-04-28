@@ -1,4 +1,5 @@
 import {
+  Button,
   Heading,
   Link,
   ListItem,
@@ -15,18 +16,29 @@ import {
   Thead,
   Tr,
   UnorderedList,
+  useToast,
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const ResultTabs: FC<{
+const ResultSection: FC<{
   charmsValue: {
     SkillLevels: [number, number]
     Skills: [number, number]
     Slots: [number, number, number]
   }[]
 }> = ({ charmsValue }) => {
+  const toast = useToast()
   const { t } = useTranslation()
+
+  const text = charmsValue
+    .map(
+      charm =>
+        `${charm.Skills.map((id, i) => `${id === 0 ? '' : t(`skill.${id}`)},${charm.SkillLevels[i]}`).join(
+          ',',
+        )},${charm.Slots.join(',')}`,
+    )
+    .join('\n')
 
   return (
     <>
@@ -50,23 +62,28 @@ const ResultTabs: FC<{
 
         <TabPanels>
           <TabPanel>
-            <Textarea
-              h="3xs"
-              isReadOnly
-              value={charmsValue
-                .map(
-                  charm =>
-                    `${charm.Skills.map((id, i) => `${t(`skill.${id}`) || ''},${charm.SkillLevels[i]}`).join(
-                      ',',
-                    )},${charm.Slots.join(',')}`,
-                )
-                .join('\n')}
-            />
+            <Textarea h="3xs" isReadOnly value={text} mb={5} onFocus={e => e.target.select()} />
+            <Button
+              colorScheme="green"
+              onClick={() => {
+                navigator.clipboard.writeText(text)
+                toast({
+                  title: 'Copied',
+                  status: 'success',
+                  duration: 3000,
+                  isClosable: true,
+                })
+              }}
+            >
+              {t('layout.copy')}
+            </Button>
           </TabPanel>
+
           <TabPanel>
             <Table size="sm">
               <Thead>
                 <Tr>
+                  <Th>#</Th>
                   <Th>{t('layout.skill')} 1</Th>
                   <Th>{t('layout.skill')} 2</Th>
                   <Th>{t('layout.slots')}</Th>
@@ -75,6 +92,7 @@ const ResultTabs: FC<{
               <Tbody>
                 {charmsValue.map((charm, i) => (
                   <Tr key={i}>
+                    <Td>{i + 1}</Td>
                     <Td>
                       {t(`skill.${charm.Skills[0]}`) !== `skill.${charm.Skills[0]}`
                         ? `${t(`skill.${charm.Skills[0]}`)} Lv${charm.SkillLevels[0]}`
@@ -97,4 +115,4 @@ const ResultTabs: FC<{
   )
 }
 
-export default ResultTabs
+export default ResultSection
