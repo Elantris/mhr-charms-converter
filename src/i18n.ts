@@ -6,7 +6,11 @@ import kr from './assets/kr.json'
 import zh_hans from './assets/zh_hans.json'
 import zh_hant from './assets/zh_hant.json'
 
-export const languages = [
+export const languages: {
+  name: string
+  code: string
+  file: Record<string, Record<string, string>>
+}[] = [
   {
     name: '正體中文',
     code: 'zh_hant',
