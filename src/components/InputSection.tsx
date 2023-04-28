@@ -1,6 +1,7 @@
 import {
   Button,
   Heading,
+  Input,
   Link,
   ListItem,
   Tab,
@@ -14,12 +15,13 @@ import {
 import { FC, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
+import { CharmsScheme } from '../utils/schemes'
 import SkillTable from './SkillTable'
-import { CharmsScheme } from './schemes'
 
 const InputSection: FC<{
   onChange?: (charmsValue: z.infer<typeof CharmsScheme>) => void
 }> = ({ onChange }) => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const { t } = useTranslation()
   const [isError, setIsError] = useState(false)
@@ -61,8 +63,32 @@ const InputSection: FC<{
           <Tab>JSON</Tab>
           <Tab>{t('layout.skills')}</Tab>
         </TabList>
+
         <TabPanels>
           <TabPanel>
+            <Input
+              ref={fileInputRef}
+              type="file"
+              accept=".json,application/json"
+              mb={5}
+              onChange={e => {
+                const file = e.target.files?.[0]
+                if (!file) {
+                  return
+                }
+                const reader = new FileReader()
+                reader.addEventListener('load', () => {
+                  if (textareaRef.current && typeof reader.result === 'string') {
+                    textareaRef.current.textContent = reader.result
+                  }
+                })
+                reader.addEventListener('error', () => {
+                  setIsError(true)
+                })
+                reader.readAsText(file)
+              }}
+            />
+
             <Textarea
               ref={textareaRef}
               h="3xs"
@@ -75,6 +101,7 @@ const InputSection: FC<{
               {t('layout.convert')}
             </Button>
           </TabPanel>
+
           <TabPanel>
             <SkillTable />
           </TabPanel>

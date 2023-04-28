@@ -3,10 +3,10 @@ import { Button, Container, Divider, Link, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { GoMarkGithub } from 'react-icons/go'
 import { z } from 'zod'
+import { CharmsScheme } from '../utils/schemes'
 import Header from './Header'
 import InputSection from './InputSection'
 import ResultTabs from './ResultSection'
-import { CharmsScheme } from './schemes'
 
 const App = () => {
   const [charmsValue, setCharmsValue] = useState<z.infer<typeof CharmsScheme>>([])

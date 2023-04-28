@@ -1,7 +1,7 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Box, Button, Flex, Heading, useColorMode } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
-import { languages } from './i18n'
+import { languages } from '../utils/i18n'
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()

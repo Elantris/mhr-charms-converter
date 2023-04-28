@@ -1,10 +1,10 @@
 import i18n, { InitOptions } from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import en from './assets/en.json'
-import jp from './assets/jp.json'
-import kr from './assets/kr.json'
-import zh_hans from './assets/zh_hans.json'
-import zh_hant from './assets/zh_hant.json'
+import en from '../assets/en.json'
+import jp from '../assets/jp.json'
+import kr from '../assets/kr.json'
+import zh_hans from '../assets/zh_hans.json'
+import zh_hant from '../assets/zh_hant.json'
 
 export const languages: {
   name: string
