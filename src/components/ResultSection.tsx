@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Heading,
   Link,
   ListItem,
@@ -28,27 +29,24 @@ const ResultSection: FC<{
     Slots: [number, number, number]
   }[]
 }> = ({ charmsValue }) => {
-  const toast = useToast()
   const { t } = useTranslation()
+  const toast = useToast()
 
   const text = charmsValue
-    .map(
-      charm =>
-        `${charm.Skills.map((id, i) => `${id === 0 ? '' : t(`skill.${id}`)},${charm.SkillLevels[i]}`).join(
-          ',',
-        )},${charm.Slots.join(',')}`,
-    )
+    .map(charm => `${charm.Skills.map((id, i) => `${id === 0 ? '' : t(`skill.${id}`)},${charm.SkillLevels[i]}`).join(',')},${charm.Slots.join(',')}`)
     .join('\n')
 
   return (
     <>
+      <Divider my={10} />
+
       <Heading as="h2" size="lg" mb={5}>
         {t('layout.output')}
       </Heading>
 
       <UnorderedList mb={5}>
         <ListItem>
-          <Link href="https://mhrise.wiki-db.com/sim/?hl=zh-hant" color="blue.400" isExternal>
+          <Link href={t('layout.search.url') || 'https://mhrise.wiki-db.com/sim/'} color="blue.400" isExternal>
             Monster Hunter Rise:Sunbreak Armorset Search
           </Link>
         </ListItem>
@@ -93,16 +91,8 @@ const ResultSection: FC<{
                 {charmsValue.map((charm, i) => (
                   <Tr key={i}>
                     <Td>{i + 1}</Td>
-                    <Td>
-                      {t(`skill.${charm.Skills[0]}`) !== `skill.${charm.Skills[0]}`
-                        ? `${t(`skill.${charm.Skills[0]}`)} Lv${charm.SkillLevels[0]}`
-                        : null}
-                    </Td>
-                    <Td>
-                      {t(`skill.${charm.Skills[1]}`) !== `skill.${charm.Skills[1]}`
-                        ? `${t(`skill.${charm.Skills[1]}`)} Lv${charm.SkillLevels[1]}`
-                        : null}
-                    </Td>
+                    <Td>{charm.Skills[0] !== 0 ? `${t(`skill.${charm.Skills[0]}`)} Lv${charm.SkillLevels[0]}` : null}</Td>
+                    <Td>{charm.Skills[1] !== 0 ? `${t(`skill.${charm.Skills[1]}`)} Lv${charm.SkillLevels[1]}` : null}</Td>
                     <Td>{charm.Slots.join('-')}</Td>
                   </Tr>
                 ))}

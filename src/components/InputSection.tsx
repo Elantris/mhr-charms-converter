@@ -1,29 +1,17 @@
-import {
-  Button,
-  Heading,
-  Input,
-  Link,
-  ListItem,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Textarea,
-  UnorderedList,
-} from '@chakra-ui/react'
-import { FC, useRef, useState } from 'react'
+import { Button, Divider, Heading, Input, Link, ListItem, Tab, TabList, TabPanel, TabPanels, Tabs, Textarea, UnorderedList } from '@chakra-ui/react'
+import { FC, Suspense, lazy, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { CharmsScheme } from '../utils/schemes'
-import SkillTable from './SkillTable'
+
+const SkillTable = lazy(() => import('./SkillTable'))
 
 const InputSection: FC<{
   onChange?: (charmsValue: z.infer<typeof CharmsScheme>) => void
 }> = ({ onChange }) => {
+  const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-  const { t } = useTranslation()
   const [isError, setIsError] = useState(false)
 
   const handleConvert = () => {
@@ -37,6 +25,8 @@ const InputSection: FC<{
 
   return (
     <>
+      <Divider my={10} />
+
       <Heading as="h2" size="lg" mb={5}>
         {t('layout.input')}
       </Heading>
@@ -48,11 +38,7 @@ const InputSection: FC<{
           </Link>
         </ListItem>
         <ListItem>
-          <Link
-            href="https://docs.google.com/spreadsheets/d/10JQRMu3l0EQs2eX-e3kiIIq5z8Su1iLU2mKJQYKF2uI/edit?usp=sharing"
-            color="blue.400"
-            isExternal
-          >
+          <Link href="https://docs.google.com/spreadsheets/d/10JQRMu3l0EQs2eX-e3kiIIq5z8Su1iLU2mKJQYKF2uI/edit?usp=sharing" color="blue.400" isExternal>
             MHR:SB護石表(15.0.0)
           </Link>
         </ListItem>
@@ -89,21 +75,16 @@ const InputSection: FC<{
               }}
             />
 
-            <Textarea
-              ref={textareaRef}
-              h="3xs"
-              mb={5}
-              placeholder="JSON"
-              borderColor={isError ? 'red.300' : undefined}
-              onFocus={() => setIsError(false)}
-            />
+            <Textarea ref={textareaRef} h="3xs" mb={5} placeholder="JSON" borderColor={isError ? 'red.300' : undefined} onFocus={() => setIsError(false)} />
             <Button colorScheme="blue" onClick={() => handleConvert()}>
               {t('layout.convert')}
             </Button>
           </TabPanel>
 
           <TabPanel>
-            <SkillTable />
+            <Suspense>
+              <SkillTable />
+            </Suspense>
           </TabPanel>
         </TabPanels>
       </Tabs>

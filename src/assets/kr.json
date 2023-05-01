@@ -1,5 +1,7 @@
 {
-  "layout": {},
+  "layout": {
+    "search.url": "https://mhrise.wiki-db.com/sim/?hl=ko"
+  },
   "skill": {
     "1": "공격",
     "2": "도전자",
