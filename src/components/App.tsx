@@ -8,6 +8,7 @@ import Header from './Header'
 
 const InputSection = lazy(() => import('./InputSection'))
 const ResultSection = lazy(() => import('./ResultSection'))
+const MaxCharmsSection = lazy(() => import('./MaxCharmsSection'))
 
 const App = () => {
   const [charmsValue, setCharmsValue] = useState<z.infer<typeof CharmsScheme>>([])
@@ -27,6 +28,7 @@ const App = () => {
       >
         <InputSection onChange={charmsValue => setCharmsValue(charmsValue)} />
         <ResultSection charmsValue={charmsValue} />
+        <MaxCharmsSection />
       </Suspense>
 
       <Divider my={10} />

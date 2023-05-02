@@ -10,6 +10,18 @@
     "skill": "スキル",
     "slots": "スロット"
   },
+  "category": {
+    "quest": "クエスト",
+    "item": "アイテム",
+    "battleSurvival": "戦闘(生存)",
+    "Resistance": "特殊攻撃耐性",
+    "parameterChange": "パラメータ変化",
+    "battleElemSpecial": "戦闘(属性・異常)",
+    "battleAttack": "戦闘(攻撃)",
+    "battleSwordsman": "戦闘(剣士専用)",
+    "battleGunner": "戦闘(ガンナー専用)",
+    "setSkill": "シリーズスキル"
+  },
   "skill": {
     "1": "攻撃",
     "2": "挑戦者",

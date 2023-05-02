@@ -2,6 +2,18 @@
   "layout": {
     "search.url": "https://mhrise.wiki-db.com/sim/?hl=ko"
   },
+  "category": {
+    "quest": "퀘스트",
+    "item": "아이템",
+    "battleSurvival": "전투(생존)",
+    "Resistance": "특수 공격 내성",
+    "parameterChange": "파라미터 변화",
+    "battleElemSpecial": "전투(속성/상태 이상)",
+    "battleAttack": "전투(공격)",
+    "battleSwordsman": "전투(Swordsman)",
+    "battleGunner": "전투(Gunner)",
+    "setSkill": "시리즈 스킬"
+  },
   "skill": {
     "1": "공격",
     "2": "도전자",

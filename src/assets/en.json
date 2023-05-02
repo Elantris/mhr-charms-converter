@@ -10,7 +10,21 @@
     "search.url": "https://mhrise.wiki-db.com/sim/?hl=en",
     "copy": "copy",
     "skill": "Skill",
-    "slots": "Slots"
+    "slots": "Slots",
+    "maxCharms": "Max Charms",
+    "clear": "Clear"
+  },
+  "category": {
+    "quest": "Quest",
+    "item": "Item",
+    "battleSurvival": "Battle(Survival)",
+    "Resistance": "Resistance",
+    "parameterChange": "Parameter change",
+    "battleElemSpecial": "Battle(Elem/Special)",
+    "battleAttack": "Battle(Attack)",
+    "battleSwordsman": "Battle(Swordsman)",
+    "battleGunner": "Battle(Gunner)",
+    "setSkill": "Set Skill"
   },
   "skill": {
     "1": "Attack Boost",

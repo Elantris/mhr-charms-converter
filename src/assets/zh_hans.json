@@ -12,6 +12,18 @@
     "skill": "技能",
     "slots": "镶嵌槽"
   },
+  "category": {
+    "quest": "任务",
+    "item": "道具",
+    "battleSurvival": "战斗（生存）",
+    "Resistance": "特殊攻击耐性",
+    "parameterChange": "属性变化",
+    "battleElemSpecial": "战斗（属性/异常状态）",
+    "battleAttack": "战斗（攻击）",
+    "battleSwordsman": "战斗（近战）",
+    "battleGunner": "战斗（远程）",
+    "setSkill": "套装技能"
+  },
   "skill": {
     "1": "攻击",
     "2": "挑战者",

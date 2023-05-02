@@ -10,7 +10,21 @@
     "search.url": "https://mhrise.wiki-db.com/sim/?hl=zh-hant",
     "copy": "複製",
     "skill": "技能",
-    "slots": "鑲嵌槽"
+    "slots": "鑲嵌槽",
+    "maxCharms": "極限護石",
+    "clear": "清空"
+  },
+  "category": {
+    "quest": "任務",
+    "item": "道具",
+    "battleSurvival": "戰鬥（生存）",
+    "Resistance": "耐性",
+    "parameterChange": "屬性變化",
+    "battleElemSpecial": "戰鬥（屬性/異常狀態）",
+    "battleAttack": "戰鬥（攻擊）",
+    "battleSwordsman": "戰鬥（近戰）",
+    "battleGunner": "戰鬥（遠程）",
+    "setSkill": "套裝技能"
   },
   "skill": {
     "1": "攻擊",
