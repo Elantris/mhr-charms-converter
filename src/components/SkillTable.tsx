@@ -2,7 +2,7 @@ import { Checkbox, Stack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/rea
 import { useState } from 'react'
 import { languages } from '../utils/i18n'
 
-const skillIds = Array.from({ length: 141 }, (_, i) => i + 1)
+const skillIds = Array.from({ length: 145 }, (_, i) => i + 1)
 
 const SkillTable = () => {
   const [selectedLanguages, setSelectedLanguages] = useState(languages.map(() => true))
