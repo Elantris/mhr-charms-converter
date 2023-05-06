@@ -44,14 +44,6 @@ const ResultSection: FC<{
         {t('layout.output')}
       </Heading>
 
-      <UnorderedList mb={5}>
-        <ListItem>
-          <Link href={t('layout.search.url') || 'https://mhrise.wiki-db.com/sim/'} color="blue.400" isExternal>
-            Monster Hunter Rise:Sunbreak Armorset Search
-          </Link>
-        </ListItem>
-      </UnorderedList>
-
       <Tabs>
         <TabList>
           <Tab>{t('layout.text')}</Tab>

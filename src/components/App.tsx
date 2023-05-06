@@ -1,6 +1,7 @@
 import { Icon } from '@chakra-ui/icons'
-import { Button, Container, Divider, Link, Skeleton, Stack, Text } from '@chakra-ui/react'
+import { Button, Container, Divider, Heading, Link, ListItem, Skeleton, Stack, Text, UnorderedList } from '@chakra-ui/react'
 import { Suspense, lazy, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GoMarkGithub } from 'react-icons/go'
 import { z } from 'zod'
 import { CharmsScheme } from '../utils/schemes'
@@ -11,6 +12,7 @@ const ResultSection = lazy(() => import('./ResultSection'))
 const MaxCharmsSection = lazy(() => import('./MaxCharmsSection'))
 
 const App = () => {
+  const { t } = useTranslation()
   const [charmsValue, setCharmsValue] = useState<z.infer<typeof CharmsScheme>>([])
 
   return (
@@ -30,6 +32,30 @@ const App = () => {
         <ResultSection charmsValue={charmsValue} />
         <MaxCharmsSection />
       </Suspense>
+
+      <Divider my={10} />
+
+      <Heading as="h2" size="lg" mb={5}>
+        {t('layout.credit')}
+      </Heading>
+
+      <UnorderedList mb={5}>
+        <ListItem>
+          <Link href="https://www.nexusmods.com/monsterhunterrise/mods/17?" color="blue.400" isExternal>
+            Charm Editor and Item Cheat
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="https://docs.google.com/spreadsheets/d/10JQRMu3l0EQs2eX-e3kiIIq5z8Su1iLU2mKJQYKF2uI/edit?usp=sharing" color="blue.400" isExternal>
+            MHR:SB護石表(15.0.0)
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href={t('layout.search.url') || 'https://mhrise.wiki-db.com/sim/'} color="blue.400" isExternal>
+            Monster Hunter Rise:Sunbreak Armorset Search
+          </Link>
+        </ListItem>
+      </UnorderedList>
 
       <Divider my={10} />
       <Text textAlign="center">

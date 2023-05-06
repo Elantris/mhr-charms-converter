@@ -31,19 +31,6 @@ const InputSection: FC<{
         {t('layout.input')}
       </Heading>
 
-      <UnorderedList mb={5}>
-        <ListItem>
-          <Link href="https://www.nexusmods.com/monsterhunterrise/mods/17?" color="blue.400" isExternal>
-            Charm Editor and Item Cheat
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="https://docs.google.com/spreadsheets/d/10JQRMu3l0EQs2eX-e3kiIIq5z8Su1iLU2mKJQYKF2uI/edit?usp=sharing" color="blue.400" isExternal>
-            MHR:SB護石表(15.0.0)
-          </Link>
-        </ListItem>
-      </UnorderedList>
-
       <Tabs>
         <TabList>
           <Tab>JSON</Tab>

@@ -12,7 +12,8 @@
     "skill": "Skill",
     "slots": "Slots",
     "maxCharms": "Max Charms",
-    "clear": "Clear"
+    "clear": "Clear",
+    "credit": "Credit"
   },
   "category": {
     "quest": "Quest",

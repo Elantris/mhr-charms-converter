@@ -10,7 +10,10 @@
     "search.url": "https://mhrise.wiki-db.com/sim/?hl=zh-hans",
     "copy": "复制",
     "skill": "技能",
-    "slots": "镶嵌槽"
+    "slots": "镶嵌槽",
+    "maxCharms": "极限护石",
+    "clear": "清空",
+    "credit": "参考资料"
   },
   "category": {
     "quest": "任务",

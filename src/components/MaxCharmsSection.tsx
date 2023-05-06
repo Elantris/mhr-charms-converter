@@ -16,7 +16,7 @@ import {
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const skills: Record<string, number[]> = {
+const skillsCategory: Record<string, number[]> = {
   quest: [34, 32, 104, 105, 33, 96, 84, 138],
   item: [60, 58, 88, 87, 90, 89],
   battleSurvival: [64, 65, 66, 35, 36, 57, 40, 93, 59, 112, 114, 132, 135, 121],
@@ -158,22 +158,10 @@ const MaxCharmsSection = () => {
         {t('layout.maxCharms')}
       </Heading>
 
-      <Button
-        colorScheme="red"
-        variant="outline"
-        mb={5}
-        onClick={() => {
-          setSelectedSkillIds([])
-          setResult('')
-        }}
-      >
-        {t('layout.clear')}
-      </Button>
-
-      <Accordion defaultIndex={[6]} allowMultiple mb={5}>
-        {Object.keys(skills).map(categoryId => {
-          const isAllSelected = skills[categoryId].every(skillId => selectedSkillIds.includes(skillId))
-          const isIndeterminate = !isAllSelected && skills[categoryId].some(skillId => selectedSkillIds.includes(skillId))
+      <Accordion allowMultiple mb={5}>
+        {Object.keys(skillsCategory).map(categoryId => {
+          const isAllSelected = skillsCategory[categoryId].every(skillId => selectedSkillIds.includes(skillId))
+          const isIndeterminate = !isAllSelected && skillsCategory[categoryId].some(skillId => selectedSkillIds.includes(skillId))
           return (
             <AccordionItem key={categoryId}>
               <Flex as="h3">
@@ -185,10 +173,12 @@ const MaxCharmsSection = () => {
                   onChange={e => {
                     e.stopPropagation()
                     setSelectedSkillIds(selectedSkillIds =>
-                      isAllSelected
-                        ? selectedSkillIds.filter(v => !skills[categoryId].includes(v))
-                        : [...selectedSkillIds, ...skills[categoryId].filter(v => !selectedSkillIds.includes(v))],
+                      (isAllSelected
+                        ? selectedSkillIds.filter(v => !skillsCategory[categoryId].includes(v))
+                        : [...selectedSkillIds, ...skillsCategory[categoryId].filter(v => !selectedSkillIds.includes(v))]
+                      ).sort((a, b) => a - b),
                     )
+                    setResult('')
                   }}
                 />
 
@@ -201,7 +191,7 @@ const MaxCharmsSection = () => {
               </Flex>
 
               <AccordionPanel pb={4}>
-                {skills[categoryId].map(skillId => {
+                {skillsCategory[categoryId].map(skillId => {
                   const isSelected = selectedSkillIds.includes(skillId)
                   return (
                     <Button
@@ -213,7 +203,9 @@ const MaxCharmsSection = () => {
                       mr={3}
                       mb={3}
                       onClick={() => {
-                        setSelectedSkillIds(selectedSkillIds => (isSelected ? selectedSkillIds.filter(v => v !== skillId) : [...selectedSkillIds, skillId]))
+                        setSelectedSkillIds(selectedSkillIds =>
+                          (isSelected ? selectedSkillIds.filter(v => v !== skillId) : [...selectedSkillIds, skillId]).sort((a, b) => a - b),
+                        )
                         setResult('')
                       }}
                     >
@@ -230,6 +222,7 @@ const MaxCharmsSection = () => {
       <Button
         colorScheme={selectedSkillIds.length < 2 ? 'gray' : 'blue'}
         mb={5}
+        mr={3}
         onClick={() =>
           setResult(
             selectedSkillIds
@@ -237,24 +230,34 @@ const MaxCharmsSection = () => {
                 selectedSkillIds
                   .map((skillId2, j) =>
                     i === j || maxCharmSkillLevels[skillId1][0] === maxCharmSkillLevels[skillId1][1]
-                      ? ''
-                      : slots
-                          .map(
-                            slot =>
-                              `${t(`skill.${skillId1}`)},${maxCharmSkillLevels[skillId1][0]},${t(`skill.${skillId2}`)},${
-                                maxCharmSkillLevels[skillId2][1]
-                              },${slot}`,
-                          )
-                          .join('\n'),
+                      ? []
+                      : slots.map(
+                          slot =>
+                            `${t(`skill.${skillId1}`)},${maxCharmSkillLevels[skillId1][0]},${t(`skill.${skillId2}`)},${
+                              maxCharmSkillLevels[skillId2][1]
+                            },${slot}`,
+                        ),
                   )
-                  .filter(v => v)
-                  .join('\n'),
+                  .filter(v => v.length),
               )
+              .flat(3)
               .join('\n'),
           )
         }
       >
         {t('layout.convert')}
+      </Button>
+
+      <Button
+        colorScheme="red"
+        variant="outline"
+        mb={5}
+        onClick={() => {
+          setSelectedSkillIds([])
+          setResult('')
+        }}
+      >
+        {t('layout.clear')}
       </Button>
 
       <Textarea h="3xs" isReadOnly value={result} mb={5} onFocus={e => e.target.select()} />
